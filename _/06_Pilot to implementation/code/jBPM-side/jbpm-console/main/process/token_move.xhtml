@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf"
+      template="/common/template.xhtml">
+
+  <ui:define name="title">
+    Move Token: Choose Target Node
+  </ui:define>
+  
+  <ui:define name="body">
+    <h:form>
+      <jbpm:dataform>
+        <f:facet name="header">Choose a node to move this token to.</f:facet>
+        <jbpm:dataarea>
+          <h:inputHidden value="#{returnViewId}"/>
+          <h:inputHidden value="#{tokenId}"/>
+          <jbpm:processImage processDefinition="#{processBean.processDefinition}" fakeUri="img.jsf">
+            <ui:repeat value="#{processBean.processDefinition.nodes}" var="node">
+              <jbpm:box borderWidth="0" node="#{node}" styleClass="tokenSelectBox tokenSelectBox_hoverable_">
+                <h:commandLink styleClass="tokenSelectBox">
+                  <f:actionListener binding="#{processInstanceBean.moveTokenListener}"/>
+                  <jbpm:outcome outcome="default" type="view" target="/main/done.xhtml"/>
+                  <jbpm:outcome outcome="error" type="stay"/>
+                </h:commandLink>
+              </jbpm:box>
+            </ui:repeat>
+          </jbpm:processImage>
+        </jbpm:dataarea>
+      </jbpm:dataform>
+    </h:form>
+  </ui:define>
+</ui:composition>

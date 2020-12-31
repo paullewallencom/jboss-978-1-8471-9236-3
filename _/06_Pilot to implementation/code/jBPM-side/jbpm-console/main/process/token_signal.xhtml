@@ -1,0 +1,64 @@
+<ui:composition template="/common/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf">
+
+  <ui:define name="title">
+    Signal Token
+  </ui:define>
+
+  <ui:define name="body">
+    <h:form>
+      <jbpm:search var="search" session="#{jbpmBean.jbpmContext.session}">
+        <jbpm:criteria queryClass="org.jbpm.graph.exe.Token" var="tokenCriteria">
+          <f:param name="id" value="#{tokenId}"/>
+        </jbpm:criteria>
+        <jbpm:dataTable id="tokenTable" headerRowClasses="main,columns">
+          <f:facet name="header">
+            <jbpm:span id="title" style="float:left">Token Node Transition List</jbpm:span>
+          </f:facet>
+          <jbpm:rowGroup id="results" value="#{search.resultList[0].node.leavingTransitions}" var="resultRow" rowClasses="even_hoverable_,odd_hoverable_"/>
+          <jbpm:column id="id">
+            <f:facet name="header">ID</f:facet>
+          </jbpm:column>
+          <jbpm:column id="name">
+            <f:facet name="header">Transition Name</f:facet>
+          </jbpm:column>
+          <jbpm:column id="to">
+            <f:facet name="header">Destination Node</f:facet>
+          </jbpm:column>
+          <jbpm:column id="action">
+            <f:facet name="header">Signal</f:facet>
+          </jbpm:column>
+          <jbpm:cell rowGroup="results" column="id">
+            <h:outputText value="#{resultRow.id}"/>
+          </jbpm:cell>
+          <jbpm:cell rowGroup="results" column="name" style="width:200px">
+            <h:outputText value="#{resultRow.name}"/>
+            <h:outputText value="(no name)" rendered="#{resultRow.name == null || resultRow.name == ''}" style="font-style:italic;color:#660000"/>
+          </jbpm:cell>
+          <jbpm:cell rowGroup="results" column="to" style="width:280px">
+            <h:outputText value="#{resultRow.to.name}"/>
+          </jbpm:cell>
+          <jbpm:cell rowGroup="results" column="action">
+            <h:commandButton image="/images/transition.gif" value="Signal">
+              <f:setPropertyActionListener value="#{resultRow.id}" target="#{transitionId}"/>
+              <f:setPropertyActionListener value="#{search.resultList[0].id}" target="#{tokenId}"/>
+              <f:actionListener binding="#{processInstanceBean.signalTokenListener}"/>
+              <jbpm:outcome outcome="error" type="stay"/>
+              <jbpm:outcome outcome="newtasks" type="redirect" target="/main/task/view.xhtml">
+                <jbpm:param name="tiid" value="#{createLogs[0].taskInstance.id}" type="get"/>
+              </jbpm:outcome>
+              <jbpm:outcome outcome="nonewtasks" type="view" target="/main/done.xhtml"/>
+              <jbpm:outcome outcome="done" type="view" target="/main/done.xhtml"/>
+            </h:commandButton>
+          </jbpm:cell>
+          
+        </jbpm:dataTable>
+      </jbpm:search>
+    </h:form>
+  </ui:define>
+</ui:composition>

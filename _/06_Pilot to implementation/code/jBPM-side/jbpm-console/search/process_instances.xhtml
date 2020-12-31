@@ -1,0 +1,91 @@
+<ui:composition
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jbpm="http://jbpm.org/jsf"
+      template="../common/template.xhtml"
+>
+  <ui:define name="title">Search For: Process Instances</ui:define>
+
+  <ui:define name="body">
+    <div style="width:100%">
+      <h:form id="searchform">
+        <jbpm:search var="taskSearch" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.graph.exe.ProcessInstance" var="processInstanceCriteria">
+            <jbpm:criteria property="processDefinition" var="processDefinitionCriteria"/>
+            <f:param name="end" value="#{null}"/>
+          </jbpm:criteria>
+
+          <jbpm:dataTable id="searchTable" headerRowClasses="main,columns">
+            <f:facet name="header">
+              <ui:include src="../common/searchheader.xhtml">
+                <ui:param name="search" value="#{taskSearch}"/>
+                <ui:param name="title" value="Process Instances"/>
+              </ui:include>
+            </f:facet>
+            <f:facet name="footer">
+              <ui:include src="../common/searchfooter.xhtml">
+                <ui:param name="search" value="#{taskSearch}"/>
+              </ui:include>
+            </f:facet>
+            <jbpm:rowGroup id="filter" styleClass="filterGroup"/>
+            <jbpm:rowGroup id="results" value="#{taskSearch.resultList}" var="resultRow" first="#{taskSearch.firstRow}" rows="#{taskSearch.resultsPerPage}" rowClasses="even_hoverable_,odd_hoverable_"/>
+
+            <jbpm:columnGroup>
+              <jbpm:column id="id">
+                <f:facet name="header">ID</f:facet>
+              </jbpm:column>
+              <jbpm:column id="view">
+                <f:facet name="header">View</f:facet>
+              </jbpm:column>
+              <jbpm:column id="processname">
+                <f:facet name="header">Process Name</f:facet>
+              </jbpm:column>
+              <jbpm:column id="processversion">
+                <f:facet name="header">Process Version</f:facet>
+              </jbpm:column>
+              <jbpm:column id="started">
+                <f:facet name="header">Create Date</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+
+
+            <jbpm:cell rowGroup="results" column="id">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+
+            <jbpm:cell rowGroup="results" column="view">
+              <h:outputLink value="main/process/view.jsf">
+                <f:param name="piid" value="#{resultRow.id}"/>
+                View
+              </h:outputLink>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="processname">
+              <jbpm:filter id="processFilter" beanClass="org.jbpm.webapp.bean.search.filter.ProcessDefinitionFilterBean" var="processFilterBean" criteria="#{processDefinitionCriteria}"/>
+              <h:inputText
+                id="processName"
+                styleClass="text processname"
+                validator="#{processFilterBean.processNameValidator.validate}"
+                value="#{processFilterBean.processName}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processname">
+              <h:outputText value="#{resultRow.processDefinition.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processversion">
+              <h:outputText value="#{resultRow.processDefinition.version}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="started">
+              <h:outputText value="#{resultRow.start}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+          </jbpm:dataTable>
+        </jbpm:search>
+      </h:form>
+      <br/>
+    </div>
+  </ui:define>
+</ui:composition>

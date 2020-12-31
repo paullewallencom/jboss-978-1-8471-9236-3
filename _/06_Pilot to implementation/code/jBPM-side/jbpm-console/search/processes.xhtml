@@ -1,0 +1,89 @@
+<ui:composition
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jbpm="http://jbpm.org/jsf"
+      template="../common/template.xhtml"
+>
+  <ui:define name="title">Search For: Processes</ui:define>
+
+  <ui:define name="body">
+    <div style="width:100%">
+      <h:form id="searchform">
+        <jbpm:search var="taskSearch" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.graph.def.ProcessDefinition" var="processDefinitionCriteria"/>
+
+          <jbpm:dataTable id="searchTable" headerRowClasses="main,columns">
+            <f:facet name="header">
+              <ui:include src="../common/searchheader.xhtml">
+                <ui:param name="search" value="#{taskSearch}"/>
+                <ui:param name="title" value="Process List"/>
+              </ui:include>
+            </f:facet>
+            <f:facet name="footer">
+              <ui:include src="../common/searchfooter.xhtml">
+                <ui:param name="search" value="#{taskSearch}"/>
+              </ui:include>
+            </f:facet>
+            <jbpm:rowGroup id="filter" styleClass="filterGroup"/>
+            <jbpm:rowGroup id="results" value="#{taskSearch.resultList}" var="resultRow" first="#{taskSearch.firstRow}" rows="#{taskSearch.resultsPerPage}" rowClasses="even_hoverable_,odd_hoverable_"/>
+
+            <jbpm:columnGroup>
+              <jbpm:column id="id">
+                <f:facet name="header">
+                  <h:outputText value="ID"/>
+                </f:facet>
+              </jbpm:column>
+              <jbpm:column id="processname">
+                <f:facet name="header">Process Name</f:facet>
+              </jbpm:column>
+              <jbpm:column id="processversion">
+                <f:facet name="header">Process Version</f:facet>
+              </jbpm:column>
+              <jbpm:column id="start">
+                <f:facet name="header">Quick Start</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+
+
+            <jbpm:cell rowGroup="results" column="id">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+
+            <jbpm:cell rowGroup="filter" column="processname">
+              <jbpm:filter id="processFilter" beanClass="org.jbpm.webapp.bean.search.filter.ProcessDefinitionFilterBean" var="processFilterBean" criteria="#{processDefinitionCriteria}"/>
+              <h:inputText
+                id="processName"
+                styleClass="text processname"
+                validator="#{processFilterBean.processNameValidator.validate}"
+                value="#{processFilterBean.processName}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processname">
+              <h:outputText value="#{resultRow.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processversion">
+              <h:outputText value="#{resultRow.version}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="start">
+              <h:commandLink id="startProcessButton">
+                <h:outputText value="Start Process"/>
+                <f:setPropertyActionListener value="#{resultRow}" target="#{processBean.processDefinition}"/>
+                <f:actionListener binding="#{processBean.startInstanceListener}"/>
+                <jbpm:outcome outcome="error" type="stay"/>
+                <jbpm:outcome outcome="newtasks" type="redirect" target="/main/task/view.xhtml" targetType="view">
+                  <jbpm:param name="tiid" value="#{createLogs[0].taskInstance.id}" type="get"/> 
+                </jbpm:outcome>
+                <jbpm:outcome outcome="nonewtasks" type="view" target="/main/done.xhtml"/>
+                <jbpm:outcome outcome="done" type="view" target="/main/done.xhtml"/>
+              </h:commandLink>
+            </jbpm:cell>
+          </jbpm:dataTable>
+        </jbpm:search>
+      </h:form>
+      <br/>
+    </div>
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,78 @@
+<ui:composition template="/common/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jbpm="http://jbpm.org/jsf"
+>
+  <ui:define name="javascript">
+    <script type="text/javascript">
+      function onload() {
+        document.getElementById('j_username').select();
+      }
+    </script>
+  </ui:define>
+
+  <ui:define name="menu">
+    <div>
+      You are not logged in.
+    </div>
+    <div>
+    <form name="loginform" method="post" action="j_security_check">
+    Username:<br />
+    <input class="text" type="text" id="j_username" name="j_username" tabindex="1"/>
+    Password:<br />
+    <input class="text" type="password" id="j_password" name="j_password" tabindex="2"/>
+    <br /><br />
+    <input name="login" type="submit" value="Log In" tabindex="3"/>
+    </form>
+    </div>
+  </ui:define>
+
+  <ui:define name="body">
+    <table class="layout" style="width:370px">
+      <tbody>
+        <tr>
+          <td class="layout">
+            <img alt=" " style="height:80px" src="images/lock.gif" />
+          </td>
+          <td class="layout">
+            <ui:insert name="loginmessage"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="layout" colspan="2">
+            <table class="dataform">
+              <tbody>
+                <tr>
+                  <th>Username</th>
+                  <th>Password</th>
+                  <th>Roles</th>
+                </tr>
+                <tr>
+                  <td>ernie</td>
+                  <td>ernie</td>
+                  <td>participant, manager, administrator</td>
+                </tr>
+                <tr>
+                  <td>bert</td>
+                  <td>bert</td>
+                  <td>participant</td>
+                </tr>
+                <tr>
+                  <td>cookie monster</td>
+                  <td>cookie monster</td>
+                  <td>participant</td>
+                </tr>
+                <tr>
+                  <td>grover</td>
+                  <td>grover</td>
+                  <td>participant</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </ui:define>
+
+</ui:composition>

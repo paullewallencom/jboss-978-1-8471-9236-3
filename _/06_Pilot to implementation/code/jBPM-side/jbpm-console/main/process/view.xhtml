@@ -1,0 +1,304 @@
+<ui:composition template="/common/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf">
+
+  <ui:define name="title">
+    Process Instance View
+  </ui:define>
+
+  <ui:define name="body">
+    <ui:param name="bean" value="#{processInstanceBean}"/>
+    <ui:param name="pd" value="#{processBean.processDefinition}" />
+    <ui:param name="pi" value="#{processInstanceBean.processInstance}" />
+    <jbpm:tabset id="mainTabs" inputId=":tabform:mainTabsInput" renderInactive="true">
+      <f:facet name="inactive">
+        <h:outputText style="vertical-align:top;">
+          <img alt="" src="images/loading.gif" style="float:left;margin-right:10px;"/>Loading...
+        </h:outputText>
+      </f:facet>
+      <jbpm:tab id="summary">
+        <f:facet name="header">Summary</f:facet>
+        <jbpm:dataform columns="2" orientation="horizontal">
+          <f:facet name="header">
+            <h:outputText>
+              Process Instance View - <b>"#{pd.name}"</b>
+            </h:outputText>
+          </f:facet>
+          <jbpm:datasection>
+            <jbpm:datacell>
+              <f:facet name="header">
+                ID
+              </f:facet>
+              <h:outputText value="#{bean.id}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Start Date
+              </f:facet>
+              <h:outputText value="#{pi.start}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Suspended
+              </f:facet>
+              <h:outputText value="#{pi.suspended ? 'Yes' : 'No'}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                End Date
+              </f:facet>
+              <h:outputText value="#{pi.end}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:datacell>
+          </jbpm:datasection>
+        </jbpm:dataform>
+        <br/>
+        <jbpm:search var="search" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.graph.exe.Token" var="tokenCriteria">
+            <jbpm:criteria property="node" var="nodeCriteria"/>
+            <f:param name="processInstance" value="#{pi}"/>
+          </jbpm:criteria>
+          <jbpm:dataTable id="tokenTable" headerRowClasses="main,columns" rendered="#{! empty search.resultList}">
+            <f:facet name="header">
+              <jbpm:span id="title" style="float:left">Token List</jbpm:span>
+            </f:facet>
+            <jbpm:rowGroup id="results" value="#{search.resultList}" var="resultRow" rowClasses="even_hoverable_,odd_hoverable_"/>
+            <jbpm:column id="ID">
+              <f:facet name="header">ID</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Start">
+              <f:facet name="header">Start Date/Time</f:facet>
+            </jbpm:column>
+            <jbpm:column id="End">
+              <f:facet name="header">End Date/Time</f:facet>
+            </jbpm:column>
+            <jbpm:column id="NodeName">
+              <f:facet name="header">Current Node</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Action">
+              <f:facet name="header">Action</f:facet>
+            </jbpm:column>
+            <jbpm:cell rowGroup="results" column="ID" style="width:50px">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Start" style="width:200px">
+              <h:outputText value="#{resultRow.start}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="End" style="width:200px">
+              <h:outputText value="#{resultRow.end}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="NodeName" style="width:300px">
+              <h:outputText value="#{resultRow.node.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Action" style="white-space:nowrap">
+              <h:form>
+                <h:commandButton type="submit" disabled="#{resultRow.end != null}" value="Signal...">
+                  <f:setPropertyActionListener value="#{resultRow.id}" target="#{tokenId}"/>
+                  <f:setPropertyActionListener value="#{currentViewId}" target="#{returnViewId}"/>
+                  <jbpm:outcome outcome="default" target="/main/process/token_signal.xhtml" type="view"/>
+                </h:commandButton>
+                <h:commandButton type="submit" disabled="#{resultRow.end != null}" value="Cancel...">
+                  <f:setPropertyActionListener value="#{resultRow.id}" target="#{tokenId}"/>
+                  <f:setPropertyActionListener value="#{currentViewId}" target="#{returnViewId}"/>
+                  <jbpm:outcome outcome="default" target="/main/process/token_cancel.xhtml" type="view"/>
+                </h:commandButton>
+                <h:commandButton disabled="#{resultRow.end != null}" value="Move...">
+                  <f:setPropertyActionListener value="#{resultRow.id}" target="#{tokenId}"/>
+                  <f:setPropertyActionListener value="#{currentViewId}" target="#{returnViewId}"/>
+                  <jbpm:outcome outcome="default" target="/main/process/token_move.xhtml" type="view"/>
+                </h:commandButton>
+              </h:form>
+            </jbpm:cell>
+          </jbpm:dataTable>
+        </jbpm:search>
+        <br/>
+        <jbpm:search var="search2" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.context.exe.VariableInstance" var="varCriteria">
+            <f:param name="processInstance" value="#{pi}"/>
+          </jbpm:criteria>
+          <jbpm:dataTable headerRowClasses="main,columns" rendered="#{! empty search2.resultList}">
+            <f:facet name="header">
+              <jbpm:span id="title" style="float:left">Variable List</jbpm:span>
+            </f:facet>
+            <jbpm:rowGroup id="results" value="#{search2.resultList}" var="resultRow" rowClasses="even_hoverable_,odd_hoverable_"/>
+            <jbpm:column id="Name">
+              <f:facet name="header">Name</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Value">
+              <f:facet name="header">Value</f:facet>
+            </jbpm:column>
+
+            <jbpm:cell rowGroup="results" column="Name" style="width:300px">
+              <h:outputText value="#{resultRow.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Value" style="width:300px">
+              <h:outputText value="#{resultRow.value}"/>
+            </jbpm:cell>
+          </jbpm:dataTable>
+        </jbpm:search>
+        <br/>
+        <jbpm:search var="search3" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.taskmgmt.exe.TaskInstance" var="taskInstanceCriteria">
+            <f:param name="end" value="#{null}"/>
+            <jbpm:criteria property="token" var="tokenCriteria">
+              <f:param name="processInstance" value="#{pi}"/>
+            </jbpm:criteria>
+          </jbpm:criteria>
+          <jbpm:dataTable id="taskTable" headerRowClasses="main,columns" rendered="#{! empty search3.resultList}">
+            <f:facet name="header">
+              <jbpm:span id="title" style="float:left">Process Instance Tasks</jbpm:span>
+            </f:facet>
+            <jbpm:column id="ID">
+              <f:facet name="header">ID</f:facet>
+            </jbpm:column>
+            <jbpm:column id="View">
+              <f:facet name="header">View</f:facet>
+            </jbpm:column>
+            <jbpm:column id="TaskName">
+              <f:facet name="header">Task Name</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Created">
+              <f:facet name="header">Created Date</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Priority">
+              <f:facet name="header">Task Priority</f:facet>
+            </jbpm:column>
+            <jbpm:column id="ActorID">
+              <f:facet name="header">Assigned To</f:facet>
+            </jbpm:column>
+            <jbpm:rowGroup id="results" value="#{search3.resultList}" var="resultRow" rowClasses="even_hoverable_,odd_hoverable_"/>
+            <jbpm:cell rowGroup="results" column="ID">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="View">
+              <h:outputLink value="main/task/view.jsf">
+                <f:param name="tiid" value="#{resultRow.id}"/>
+                View
+              </h:outputLink>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="TaskName">
+              <h:outputText value="#{resultRow.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Created">
+              <h:outputText value="#{resultRow.create}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Priority">
+              <h:outputText value="#{resultRow.priority}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="ActorID">
+              <h:outputText value="#{resultRow.actorId}"/>
+            </jbpm:cell>
+          </jbpm:dataTable>
+        </jbpm:search>
+        <br/>
+        <h:form prependId="false" id="actionsform">
+          <jbpm:dataform>
+            <f:facet name="header">Actions</f:facet>
+            <jbpm:datacell>
+              <f:facet name="header">Add a comment</f:facet>
+              <h:inputTextarea id="commentarea" value="#{processInstanceBean.comment}"/>
+              <h:commandButton id="commentsubmit" type="submit" value="Add Comment">
+                <f:actionListener binding="#{processInstanceBean.addCommentListener}"/>
+              </h:commandButton>
+            </jbpm:datacell>
+          </jbpm:dataform>
+        </h:form>
+        <br/>
+        <jbpm:dataTable styleClass="comments" rendered="#{! empty pi.rootToken.comments}">
+          <f:facet name="header">Comments</f:facet>
+          <jbpm:rowGroup id="comments" var="commentRow" rowClasses="even,odd" value="#{processInstanceBean.commentList}"/>
+          <jbpm:column id="mainColumn"/>
+          <jbpm:cell rowGroup="comments" column="mainColumn">
+            <div class="commentHeader">
+              <h:outputText value="Comment by "/>
+              <h:outputText value="#{commentRow.actorId}" style="font-weight:bold"/>
+              <h:outputText value=" relating to task &quot;" rendered="#{commentRow.taskInstance != null}"/>
+              <h:outputText value="#{commentRow.taskInstance.name}" rendered="#{commentRow.taskInstance != null}" style="font-weight:bold"/>
+              <h:outputText value="&quot;" rendered="#{commentRow.taskInstance != null}"/>
+              <h:outputText value=" on "/>
+              <h:outputText value="#{commentRow.time}" style="white-space:nowrap">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </div>
+            <pre class="commentText"><h:outputText value="#{commentRow.message}"/></pre>
+          </jbpm:cell>
+        </jbpm:dataTable>
+
+      </jbpm:tab>
+      <jbpm:tab id="processsrc">
+        <f:facet name="header">Process Source</f:facet>
+        <div class="sourcetxt">
+          <jbpm:xmlprinter src="processdefinition.xml" fileDefinition="#{pd.fileDefinition}"/>
+        </div>
+      </jbpm:tab>
+      <jbpm:tab id="diagram" disabled="#{! processBean.hasProcessImage}">
+        <f:facet name="header">Diagram</f:facet>
+        <jbpm:processImage processDefinition="#{pd}" fakeUri="img.jsf">
+          <jbpm:box styleClass="processImageBox" node="#{pi.rootToken.node}" borderWidth="4"/>
+        </jbpm:processImage>
+      </jbpm:tab>
+
+      <jbpm:tab>
+        <f:facet name="header">History</f:facet>
+        <jbpm:search var="search4" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.logging.log.ProcessLog" var="processLogCriteria">
+            <jbpm:criteria property="token" var="tokenCriteria2">
+              <f:param name="processInstance.id" value="#{pi.id}"/>
+            </jbpm:criteria>
+          </jbpm:criteria>
+          <jbpm:dataTable id="historyTable" headerRowClasses="main,columns">
+            <f:facet name="header">
+              <jbpm:span id="title" style="float:left">Process Instance History</jbpm:span>
+            </f:facet>
+            <jbpm:rowGroup id="results" value="#{search4.resultList}" var="resultRow" rowClasses="even_hoverable_,odd_hoverable_"/>
+            <jbpm:column id="ID">
+              <f:facet name="header">ID</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Index">
+              <f:facet name="header">Index</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Date">
+              <f:facet name="header">Date</f:facet>
+            </jbpm:column>
+            <jbpm:column id="Desc">
+              <f:facet name="header">Description</f:facet>
+            </jbpm:column>
+            <jbpm:cell rowGroup="results" column="ID">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Index">
+              <h:outputText value="#{resultRow.index}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Date">
+              <h:outputText value="#{resultRow.date}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="Desc">
+              <h:outputText value="#{resultRow}"/>
+            </jbpm:cell>
+          </jbpm:dataTable>
+        </jbpm:search>
+      </jbpm:tab>
+    </jbpm:tabset>
+
+    <h:form id="tabform">
+      <jbpm:tabinput id="mainTabsInput">
+      </jbpm:tabinput>
+    </h:form>
+  </ui:define>
+
+</ui:composition>

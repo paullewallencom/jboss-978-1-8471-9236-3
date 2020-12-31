@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>jbpm</short-name>
+  <uri>http://jbpm.org/jsf/tf</uri>
+  <description>JBPM TaskForm Tag Library</description>
+
+  <tag>
+    <name>taskForm</name>
+    <tag-class/>
+    <tei-class/>
+    <body-content>JSP</body-content>
+    <description>Declare a taskform and set up a handler for the form button actions.</description>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>Determine whether to render this component.</description>
+    </attribute>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The unique identifier of this component.</description>
+    </attribute>
+    <attribute>
+      <name>taskInstance</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The task instance whose form is to be modified.</description>
+    </attribute>
+    <attribute>
+      <name>creationLogsVar</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The request scope variable in which to place the task creation logs list after a transition is taken.</description>
+    </attribute>
+    <attribute>
+      <name>jbpmContext</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>An EL expression that resolves to the current jBPM context.</description>
+    </attribute>
+
+  </tag>
+
+  <tag>
+    <name>includeTaskForm</name>
+    <tag-class/>
+    <tei-class/>
+    <body-content>JSP</body-content>
+    <description>Include a task form from a process archive.</description>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>Determine whether to render this component.</description>
+    </attribute>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The unique identifier of this component.</description>
+    </attribute>
+    <attribute>
+      <name>taskInstance</name>
+      <required>true</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The task instance whose form is to be modified.</description>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>saveButton</name>
+    <tag-class/>
+    <tei-class/>
+    <body-content>JSP</body-content>
+    <description>A form button that causes the current task instance to be saved.</description>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>Determine whether to render this component.</description>
+    </attribute>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The unique identifier of this component.</description>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>cancelButton</name>
+    <tag-class/>
+    <tei-class/>
+    <body-content>JSP</body-content>
+    <description>A form button that causes the current task instance modification to be cancelled.</description>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>Determine whether to render this component.</description>
+    </attribute>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The unique identifier of this component.</description>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>transitionButton</name>
+    <tag-class/>
+    <tei-class/>
+    <body-content>JSP</body-content>
+    <description>A form button that causes the current task form to be saved, and the specified transition to be taken.</description>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>Determine whether to render this component.</description>
+    </attribute>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>The unique identifier of this component.</description>
+    </attribute>
+    <attribute>
+      <name>transition</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <description>Specify the transition to take.  If not given, use the default transition.</description>
+    </attribute>
+  </tag>
+</taglib>

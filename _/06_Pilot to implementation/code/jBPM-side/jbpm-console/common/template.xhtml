@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf"
+>
+
+<head>
+  <title>JBoss jBPM Console</title>
+  <jbpm:base/>
+  <link rel="stylesheet" type="text/css" href="css/jbpm.css" />
+  <!--[if lt IE 7]>
+  <style type="text/css">
+    select {
+      position:relative;
+      top:-2px;
+    }
+  </style>
+  <![endif]-->
+</head>
+
+<body onload="onload();">
+
+<ui:insert name="javascript">
+<script type="text/javascript">//<![CDATA[
+
+function onload() {
+  activateHover();
+  document.onmouseover = btnHandler(btnOver);
+  document.onmouseout = btnHandler(btnOut);
+  document.onmousedown = btnHandler(btnDown);
+  document.onmouseeup = btnUpHandler();
+  document.onfocus = btnHandler(btnFocus);
+  document.onblur = btnHandler(btnBlur);
+  if (document.attachEvent != null) {
+    document.attachEvent("onfocusin", btnHandler(btnFocus));
+    document.attachEvent("onfocusout", btnHandler(btnBlur));
+  }
+  document.onkeydown = btnKeyDownHandler();
+  document.onkeyup = btnKeyUpHandler();
+}
+
+var clickedBtn = null;
+
+document.onmouseup = function(event) { if (clickedBtn != null) { btnUp(clickedBtn); } };
+//]]></script>
+</ui:insert>
+<script type="text/javascript" src="js/jbpm.js"/>
+
+<div style="position:absolute;left:0px;top:110px;padding-bottom:50px" class="menu">
+  <ui:insert name="menu">
+    <h:form id="menuForm">
+      <jbpm:bind name="tiid" value="#{taskInstanceBean.idParameter}"/>
+      <jbpm:bind name="tdid" value="#{taskBean.idParameter}"/>
+      <jbpm:bind name="piid" value="#{processInstanceBean.idParameter}"/>
+      <jbpm:bind name="pdid" value="#{processBean.idParameter}"/>
+      <div>Search For...</div>
+      <h:outputLink value="search/tasks.jsf" styleClass="x_hoverable_">
+        Tasks
+      </h:outputLink>
+      <h:outputLink value="search/processes.jsf" styleClass="x_hoverable_">
+        Processes
+      </h:outputLink>
+      <h:outputLink value="search/process_instances.jsf" styleClass="x_hoverable_">
+        Process Instances
+      </h:outputLink>
+      <h:outputText rendered="#{identityBean.manager}">
+        <div>Manager Menu</div>
+        <h:outputLink value="main/process/deploy.jsf" styleClass="x_hoverable_">
+          Deploy Process
+        </h:outputLink>
+      </h:outputText>
+      <div>You are logged in as:<br/>
+        <b><h:outputText value="&quot;#{identityBean.userName}&quot;"/></b>
+      </div>
+      <h:commandLink action="#{identityBean.logout}" id="logoutlink" styleClass="x_hoverable_">
+        <jbpm:outcome outcome="default" type="redirect" target="/search/tasks.xhtml"/>
+        Log Out
+      </h:commandLink>
+    </h:form>
+  </ui:insert>
+</div>
+
+<div style="position:absolute;top:100px;left:190px;width:auto;padding-right:8px;padding-bottom:50px">
+  <h1 style="margin-left:16px;color:#cc0000"><ui:insert name="title"/></h1>
+</div>
+
+<div style="position:absolute;top:125px;left:190px;width:auto;padding-right:8px;padding-bottom:50px">
+  <div class="hr"/>
+  <jbpm:messages id="msgs">
+    <f:facet name="errorHeader">
+      Error
+    </f:facet>
+    <f:facet name="warnHeader">
+      Warning
+    </f:facet>
+    <f:facet name="infoHeader">
+      Information
+    </f:facet>
+    <f:facet name="fatalHeader">
+      Fatal Error
+    </f:facet>
+    <f:facet name="clientLabel">
+      <h:outputText value="&nbsp;"/>
+    </f:facet>
+    <h:outputText rendered="#{message.detail != null and message.detail != '' and message.detail != message.summary}" id="btn" styleClass="detailbutton x_hoverable_" value="Show details" onclick="toggleMsgDetail('msgs:#{rowId}:btn','msgs:#{rowId}:detail')"/>
+    <h:outputText id="summary" escape="false" value="#{message.summary}"/>
+    <h:outputText rendered="#{message.detail != null and message.detail != '' and message.detail != message.summary}" id="detail" styleClass="detail hidden" value="#{message.detail}"/>
+  </jbpm:messages>
+  <ui:insert name="body" />
+</div>
+
+</body>
+</html>

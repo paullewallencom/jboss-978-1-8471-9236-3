@@ -1,0 +1,34 @@
+<ui:composition template="/common/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf">
+
+  <ui:define name="title">
+    Cancel Token: Confirm
+  </ui:define>
+
+  <ui:define name="body">
+    <h:form>
+      <jbpm:dataform>
+        <f:facet name="header">Are you sure you want to cancel this token?</f:facet>
+        <jbpm:dataarea>
+          <h:inputHidden value="#{returnViewId}"/>
+          <h:inputHidden value="#{tokenId}"/>
+          <span style="float:right">
+            <h:commandButton value="Yes">
+              <f:actionListener binding="#{processInstanceBean.cancelTokenListener}"/>
+              <jbpm:outcome outcome="default" type="view" target="/main/done.xhtml"/>
+              <jbpm:outcome outcome="error" type="stay"/>
+            </h:commandButton>
+            <h:commandButton value="No">
+              <jbpm:outcome outcome="default" type="redirect" targetType="view" target="#{returnViewId}"/>
+            </h:commandButton>
+          </span>
+        </jbpm:dataarea>
+      </jbpm:dataform>
+    </h:form>
+  </ui:define>
+</ui:composition>

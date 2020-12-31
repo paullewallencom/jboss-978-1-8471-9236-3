@@ -1,0 +1,29 @@
+<ui:composition template="/common/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jbpm="http://jbpm.org/jsf"
+>
+
+  <ui:define name="title">
+    Deploy Process
+  </ui:define>
+  <ui:define name="body">
+    <form enctype="multipart/form-data" method="POST" action="uploadDefinition">
+      <jbpm:dataform>
+        <f:facet name="header">
+          Upload a Process Archive
+        </f:facet>
+        <jbpm:datacell>
+          <f:facet name="header">
+            Select a process archive to deploy:
+          </f:facet>
+          <input class="file" type="file" name="processArchive"/>
+          <input type="hidden" name="file" value="archive"/>
+          <button class="button" type="submit">Do it!</button>
+        </jbpm:datacell>
+      </jbpm:dataform>
+    </form>
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,302 @@
+<ui:composition 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:jbpm="http://jbpm.org/jsf"
+      template="../common/template.xhtml"
+>
+  <ui:define name="title">Search For: Tasks</ui:define>
+
+  <ui:define name="body">
+    <div style="width:100%">
+      <h:form id="searchform">
+        <jbpm:search var="taskSearch" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.taskmgmt.exe.TaskInstance" var="taskInstanceCriteria">
+            <f:param name="actorId" value="#{identityBean.userName}"/>
+            <jbpm:criteria property="token" var="tokenCriteria">
+              <jbpm:criteria property="processInstance" var="processInstanceCriteria">
+                <jbpm:criteria property="processDefinition" var="processDefinitionCriteria"/>
+              </jbpm:criteria>
+            </jbpm:criteria>
+          </jbpm:criteria>
+
+          <jbpm:dataTable id="searchTable" headerRowClasses="main,columns">
+            <f:facet name="header">
+              <ui:include src="../common/searchheader.xhtml">
+                <ui:param name="search" value="#{taskSearch}"/>
+                <ui:param name="title" value="User Task List"/>
+              </ui:include>
+            </f:facet>
+            <f:facet name="footer">
+              <ui:include src="../common/searchfooter.xhtml">
+                <ui:param name="search" value="#{taskSearch}"/>
+              </ui:include>
+            </f:facet>
+            <jbpm:rowGroup id="filter" styleClass="filterGroup"/>
+            <jbpm:rowGroup id="results" value="#{taskSearch.resultList}" var="resultRow" first="#{taskSearch.firstRow}" rows="#{taskSearch.resultsPerPage}" rowClasses="even_hoverable_,odd_hoverable_"/>
+
+            <jbpm:columnGroup>
+              <jbpm:column id="id">
+                <f:facet name="header">
+                  <h:outputText value="ID"/>
+                </f:facet>
+              </jbpm:column>
+              <jbpm:column id="view">
+                <f:facet name="header">
+                  <h:outputText value="View"/>
+                </f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="results" column="id">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+            <!-- TODO: mark rows in boldface if they're not yet started -->
+            <jbpm:cell rowGroup="results" column="view">
+              <h:outputLink value="main/task/view.jsf">
+                <f:param name="tiid" value="#{resultRow.id}"/>
+                <h:outputText value="View"/>
+              </h:outputLink>
+            </jbpm:cell>
+            <jbpm:columnGroup id="process">
+              <jbpm:column id="processname">
+                <f:facet name="header">Process Name</f:facet>
+              </jbpm:column>
+              <jbpm:column id="processversion">
+                <f:facet name="header">Process Version</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="filter" column="processname">
+              <jbpm:filter id="processFilter" beanClass="org.jbpm.webapp.bean.search.filter.ProcessDefinitionFilterBean" var="processFilterBean" criteria="#{processDefinitionCriteria}"/>
+              <h:inputText
+                id="processName"
+                styleClass="text processname"
+                validator="#{processFilterBean.processNameValidator.validate}"
+                value="#{processFilterBean.processName}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="processversion">
+              <h:inputText
+                id="processVersion"
+                styleClass="text processversion"
+                validator="#{processFilterBean.processVersionValidator.validate}"
+                value="#{processFilterBean.processVersion}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processname">
+              <h:outputText value="#{resultRow.token.processInstance.processDefinition.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processversion">
+              <h:outputText value="#{resultRow.token.processInstance.processDefinition.version}"/>
+            </jbpm:cell>
+            <jbpm:columnGroup id="task">
+              <jbpm:column id="taskname">
+                <f:facet name="header">Task Name</f:facet>
+              </jbpm:column>
+              <jbpm:column id="created">
+                <f:facet name="header">Created Date</f:facet>
+              </jbpm:column>
+              <jbpm:column id="taskpriority">
+                <f:facet name="header">Task Priority</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="filter" column="taskname">
+              <jbpm:filter id="taskFilter" beanClass="org.jbpm.webapp.bean.search.filter.TaskFilterBean" var="taskFilterBean" criteria="#{taskInstanceCriteria}"/>
+              <h:inputText
+                id="taskNameFitler"
+                styleClass="text taskname"
+                validator="#{taskFilterBean.taskNameValidator.validate}"
+                value="#{taskFilterBean.taskName}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="taskpriority">
+              <h:inputText
+                id="taskPriorityFilter"
+                styleClass="text taskpriority"
+                validator="#{taskFilterBean.taskPriorityValidator.validate}"
+                value="#{taskFilterBean.taskPriority}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="actorid">
+              <h:inputText
+                id="taskActorIdFilter"
+                styleClass="text actorid"
+                validator="#{taskFilterBean.actorIdValidator.validate}"
+                value="#{taskFilterBean.actorId}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="taskname">
+              <h:outputText value="#{resultRow.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="taskpriority">
+              <h:outputText value="#{resultRow.priority}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="created">
+              <h:outputText value="#{resultRow.create}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+
+          </jbpm:dataTable>
+        </jbpm:search>
+
+        <br/>
+
+        <jbpm:search var="grpTaskSearch" session="#{jbpmBean.jbpmContext.session}">
+          <jbpm:criteria queryClass="org.jbpm.taskmgmt.exe.TaskInstance" var="grpTaskInstanceCriteria">
+            <f:param name="actorId" value="#{null}"/>
+            <jbpm:criteria property="pooledActors" var="pooledActorsCriteria">
+              <f:param name="actorId" value="#{identityBean.userName}"/>
+            </jbpm:criteria>
+          </jbpm:criteria>
+
+          <jbpm:dataTable id="searchTable2" headerRowClasses="main,columns">
+            <f:facet name="header">
+              <ui:include src="../common/searchheader.xhtml">
+                <ui:param name="search" value="#{grpTaskSearch}"/>
+                <ui:param name="title" value="Group Task List"/>
+              </ui:include>
+            </f:facet>
+            <f:facet name="footer">
+              <ui:include src="../common/searchfooter.xhtml">
+                <ui:param name="search" value="#{grpTaskSearch}"/>
+              </ui:include>
+            </f:facet>
+            <jbpm:rowGroup id="filter" styleClass="filterGroup"/>
+            <jbpm:rowGroup id="results" value="#{grpTaskSearch.resultList}" var="resultRow" first="#{grpTaskSearch.firstRow}" rows="#{grpTaskSearch.resultsPerPage}" rowClasses="even_hoverable_,odd_hoverable_"/>
+
+            <jbpm:columnGroup>
+              <jbpm:column id="id">
+                <f:facet name="header">
+                  <h:outputText value="ID"/>
+                </f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="results" column="id">
+              <h:outputText value="#{resultRow.id}"/>
+            </jbpm:cell>
+
+            <jbpm:columnGroup>
+              <jbpm:column id="pooledactors">
+                <f:facet name="header">Candidates</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="results" column="pooledactors">
+              <h:outputText value="#{pooledActors}" converter="pooledActorsConverter"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="taskpriority">
+              <h:outputText value="#{resultRow.priority}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="actorid">
+              <h:outputText value="#{resultRow.actorId}"/>
+            </jbpm:cell>
+
+            <jbpm:columnGroup id="process">
+              <jbpm:column id="processname">
+                <f:facet name="header">Process Name</f:facet>
+              </jbpm:column>
+              <jbpm:column id="processversion">
+                <f:facet name="header">Process Version</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="filter" column="processname">
+              <jbpm:filter id="processFilter" beanClass="org.jbpm.webapp.bean.search.filter.ProcessDefinitionFilterBean" var="processFilterBean2" criteria="#{processDefinitionCriteria}"/>
+              <h:inputText
+                id="processName"
+                styleClass="text processname"
+                validator="#{processFilterBean2.processNameValidator.validate}"
+                value="#{processFilterBean2.processName}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="processversion">
+              <h:inputText
+                id="processVersion"
+                styleClass="text processversion"
+                validator="#{processFilterBean2.processVersionValidator.validate}"
+                value="#{processFilterBean2.processVersion}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processname">
+              <h:outputText value="#{resultRow.token.processInstance.processDefinition.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="processversion">
+              <h:outputText value="#{resultRow.token.processInstance.processDefinition.version}"/>
+            </jbpm:cell>
+
+            <jbpm:columnGroup id="task">
+              <jbpm:column id="taskname">
+                <f:facet name="header">Task Name</f:facet>
+              </jbpm:column>
+              <jbpm:column id="created">
+                <f:facet name="header">Created Date</f:facet>
+              </jbpm:column>
+              <jbpm:column id="taskpriority">
+                <f:facet name="header">Task Priority</f:facet>
+              </jbpm:column>
+              <jbpm:column id="take">
+                <f:facet name="header">Assign</f:facet>
+              </jbpm:column>
+            </jbpm:columnGroup>
+            <jbpm:cell rowGroup="filter" column="taskname">
+              <jbpm:filter id="taskFilter" beanClass="org.jbpm.webapp.bean.search.filter.TaskFilterBean" var="taskFilterBean2" criteria="#{taskInstanceCriteria}"/>
+              <h:inputText
+                id="taskNameFitler"
+                styleClass="text taskname"
+                validator="#{taskFilterBean2.taskNameValidator.validate}"
+                value="#{taskFilterBean2.taskName}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="taskpriority">
+              <h:inputText
+                id="taskPriorityFilter"
+                styleClass="text taskpriority"
+                validator="#{taskFilterBean2.taskPriorityValidator.validate}"
+                value="#{taskFilterBean2.taskPriority}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="filter" column="actorid">
+              <h:inputText
+                id="taskActorIdFilter"
+                styleClass="text actorid"
+                validator="#{taskFilterBean2.actorIdValidator.validate}"
+                value="#{taskFilterBean2.actorId}"
+                onkeypress="keypress(event,'searchform:applyButton')"
+              />
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="taskname">
+              <h:outputText value="#{resultRow.name}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="taskpriority">
+              <h:outputText value="#{resultRow.priority}"/>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="created">
+              <h:outputText value="#{resultRow.create}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:cell>
+            <jbpm:cell rowGroup="results" column="take">
+              <h:commandLink>
+                <f:setPropertyActionListener value="#{resultRow.id}" target="#{taskInstanceBean.id}"/>
+                <f:actionListener binding="#{taskInstanceBean.assignToMeListener}"/>
+                <jbpm:outcome outcome="default" type="stay"/>
+                <jbpm:outcome outcome="success" type="redirect"/>
+                <h:outputText value="Assign to Me"/>
+              </h:commandLink>
+            </jbpm:cell>
+
+          </jbpm:dataTable>
+        </jbpm:search>
+      </h:form>
+      <br/>
+    </div>
+  </ui:define>
+</ui:composition>

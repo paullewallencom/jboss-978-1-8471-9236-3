@@ -1,0 +1,212 @@
+<ui:composition template="/common/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf"
+      xmlns:tf="http://jbpm.org/jsf/tf">
+
+  <ui:define name="title">
+    Task Instance View
+  </ui:define>
+
+  <ui:define name="body">
+      <!-- These aliases will save us a lot of typing -->
+    <ui:param name="bean" value="#{taskInstanceBean}"/>
+    <ui:param name="ti" value="#{taskInstanceBean.taskInstance}"/>
+    <ui:param name="td" value="#{taskBean.task}"/>
+    <ui:param name="pd" value="#{processBean.processDefinition}" />
+
+    <jbpm:responseAction>
+      <f:actionListener binding="#{taskInstanceBean.markAsViewedListener}"/>
+    </jbpm:responseAction>
+
+    <jbpm:tabset id="taskTabs" inputId=":tabform:taskTabsInput" renderInactive="true">
+      <f:facet name="inactive">
+        <h:outputText>
+          <img alt="" src="images/loading.gif" style="float:left;margin-right:10px;"/>
+          <h:outputText style="vertical-align:top;" value="Loading..."/>
+        </h:outputText>
+      </f:facet>
+      <jbpm:tab id="summary">
+        <f:facet name="header">
+          Summary
+        </f:facet>
+        <h:outputText rendered="#{taskBean.taskFormPath != null and ti.open}">
+          <h:form>
+            <tf:taskForm
+                    jbpmContext="#{jbpmBean.jbpmContext}"
+                    taskInstance="#{taskInstanceBean.taskInstance}"
+                    creationLogsVar="createLogs">
+              <jbpm:outcome outcome="error" type="stay"/>
+              <jbpm:outcome outcome="save" type="stay"/>
+              <jbpm:outcome outcome="cancel" type="redirect"/>
+              <jbpm:outcome outcome="newtasks" type="view" target="/search/tasks.xhtml"/>
+              <jbpm:outcome outcome="nonewtasks" type="view" target="/search/tasks.xhtml"/>
+              <jbpm:outcome outcome="done" type="view" target="/search/tasks.xhtml"/>
+              <tf:includeTaskForm taskInstance="#{taskInstanceBean.taskInstance}"/>
+            </tf:taskForm>
+          </h:form>
+          <br/>
+        </h:outputText>
+        <jbpm:dataform columns="2" orientation="horizontal">
+          <f:facet name="header">
+            <h:outputText>
+              Task Instance Summary
+            </h:outputText>
+          </f:facet>
+          <jbpm:datasection>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Instance ID
+              </f:facet>
+              <h:outputText value="#{ti.id}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Description
+              </f:facet>
+              <h:outputText value="#{ti.description}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Current Actor
+              </f:facet>
+              <h:outputText value="#{ti.actorId}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Task Created Date
+              </f:facet>
+              <h:outputText value="#{ti.create}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Pooled Actors
+              </f:facet>
+              <h:outputText value="#{ti.pooledActors}" converter="pooledActorsConverter"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Task Start Date
+              </f:facet>
+              <h:outputText value="#{ti.start}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Task Status
+              </f:facet>
+              <h:outputText value="#{ti.cancelled ? 'Cancelled' : ti.open ? 'Open' : 'Closed'}#{ti.suspended ? ' and Suspended' : ti.blocking ? ' and Blocking' : ''}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Task End Date
+              </f:facet>
+              <h:outputText value="#{ti.end}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Task Priority
+              </f:facet>
+              <!-- TODO add a converter to print priority name -->
+              <h:outputText value="#{ti.priority}"/>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Task Due Date
+              </f:facet>
+              <h:outputText value="#{ti.dueDate}">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">
+                Process Instance ID
+              </f:facet>
+              <h:outputText value="#{ti.token.processInstance.id} "/>
+              (<h:outputLink value="main/process/view.jsf">
+                <f:param name="piid" value="#{ti.token.processInstance.id}"/>
+                <h:outputText value="View Instance"/>
+              </h:outputLink>)
+            </jbpm:datacell>
+            <jbpm:datacell/>
+          </jbpm:datasection>
+        </jbpm:dataform>
+        <br/>
+          <jbpm:dataform>
+            <f:facet name="header">Actions</f:facet>
+            <jbpm:datacell rendered="#{ti.open}">
+              <f:facet name="header">Reassign to</f:facet>
+              <h:form prependId="false" id="action1form">
+                <h:selectOneMenu required="true" binding="#{bean.actorMenu}" style="margin-left:16px;display:inline">
+                  <f:selectItem itemDisabled="true" itemLabel="-- choose one --" itemValue=""/>
+                  <f:selectItems value="#{bean.identityUserSelectionItems}"/>
+                </h:selectOneMenu>
+                <h:commandButton action="#{bean.taskReassignAction}" value="Reassign" style="margin-left:16px;display:inline">
+                  <jbpm:outcome outcome="success" type="stay"/>
+                  <jbpm:outcome outcome="error" type="stay"/>
+                </h:commandButton>
+              </h:form>
+            </jbpm:datacell>
+            <jbpm:datacell>
+              <f:facet name="header">Add a comment</f:facet>
+              <h:form prependId="false" id="action2form">
+                <h:inputTextarea id="commentarea" value="#{taskInstanceBean.comment}"/>
+                <h:commandButton id="commentsubmit" type="submit" value="Add Comment">
+                  <f:actionListener binding="#{taskInstanceBean.addCommentListener}"/>
+                </h:commandButton>
+              </h:form>
+            </jbpm:datacell>
+          </jbpm:dataform>
+        <br/>
+        <jbpm:dataTable styleClass="comments" rendered="#{! empty ti.comments}">
+          <f:facet name="header">Comments</f:facet>
+          <jbpm:rowGroup id="comments" var="resultRow" rowClasses="even,odd" value="#{taskInstanceBean.commentList}"/>
+          <jbpm:column id="mainColumn"/>
+          <jbpm:cell rowGroup="comments" column="mainColumn">
+            <div class="commentHeader">
+              <h:outputText value="Comment by "/>
+              <h:outputText value="#{resultRow.actorId}" style="font-weight:bold"/>
+              <h:outputText value=" relating to task &quot;" rendered="#{resultRow.taskInstance != null}"/>
+              <h:outputText value="#{resultRow.taskInstance.name}" rendered="#{resultRow.taskInstance != null}" style="font-weight:bold"/>
+              <h:outputText value="&quot;" rendered="#{resultRow.taskInstance != null}"/>
+              <h:outputText value=" on "/>
+              <h:outputText value="#{resultRow.time}" style="white-space:nowrap">
+                <f:convertDateTime type="both"/>
+              </h:outputText>
+            </div>
+            <span class="commentText"><h:outputText value="#{resultRow.message}"/></span>
+          </jbpm:cell>
+        </jbpm:dataTable>
+      
+      </jbpm:tab>
+      <jbpm:tab id="taskformsrc" disabled="#{taskBean.taskFormPath == null}">
+        <f:facet name="header">Task Form Source</f:facet>
+        <div class="sourcetxt">
+          <jbpm:xmlprinter src="#{taskBean.taskFormPath}" fileDefinition="#{pd.fileDefinition}"/>
+        </div>
+      </jbpm:tab>
+      <jbpm:tab id="diagram" disabled="#{! processBean.hasProcessImage}">
+        <f:facet name="header">Diagram</f:facet>
+        <div>
+          <jbpm:processImage processDefinition="#{pd}" fakeUri="img.jsf">
+            <jbpm:box styleClass="processImageBox" node="#{ti.token.node}" borderWidth="4"/>
+          </jbpm:processImage>
+        </div>
+      </jbpm:tab>
+    </jbpm:tabset>
+
+    <h:form id="tabform">
+      <jbpm:tabinput id="taskTabsInput">
+      </jbpm:tabinput>
+    </h:form>
+  </ui:define>
+
+</ui:composition>

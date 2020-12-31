@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+<!-- the DOCTYPE means we are required to use html for a root element -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:tf="http://jbpm.org/jsf/tf"
+      xmlns:jbpm="http://jbpm.org/jsf">
+
+  <ui:component>
+
+    <jbpm:dataform>
+  	
+      <f:facet name="header">
+        <h:outputText value="#{taskName}"/>
+      </f:facet>
+        
+      <!-- TASKFORM ROWS -->
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Band member 1 agreed?"/>
+        </f:facet>
+      <h:inputText value="#{var['bm1Agreed']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Band member 2 agreed?"/>
+        </f:facet>
+      <h:inputText value="#{var['bm2Agreed']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Band member 3 agreed?"/>
+        </f:facet>
+      <h:inputText value="#{var['bm3Agreed']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Band member 4 agreed?"/>
+        </f:facet>
+      <h:inputText value="#{var['bm4Agreed']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Band member 5 agreed?"/>
+        </f:facet>
+      <h:inputText value="#{var['bm5Agreed']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Band member 6 agreed?"/>
+        </f:facet>
+      <h:inputText value="#{var['bm6Agreed']}" />
+      </jbpm:datacell>
+    	    	    
+      <jbpm:datacell>
+        <f:facet name="header">
+          <h:outputText value="Actions"/>
+        </f:facet>
+        <!-- TASKFORM BUTTONS -->
+        <tf:saveButton value="Save"/>
+        <tf:cancelButton value="Cancel"/>
+        <tf:transitionButton transition="No" value="No"/>
+        <tf:transitionButton transition="Yes" value="Yes"/>
+      </jbpm:datacell>
+	    
+    </jbpm:dataform>	
+    
+  </ui:component>
+
+</html>

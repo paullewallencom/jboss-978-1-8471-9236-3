@@ -1,0 +1,36 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf"
+>
+  <jbpm:span style="float:left;padding-top:3px">
+    <h:outputText value="#{title}"/>
+  </jbpm:span>
+  <span>
+    <h:selectOneMenu value="#{search.resultsPerPage}">
+      <f:selectItem itemLabel="10 per page" itemValue="10"/>
+      <f:selectItem itemLabel="25 per page" itemValue="25"/>
+      <f:selectItem itemLabel="50 per page" itemValue="50"/>
+    </h:selectOneMenu>
+    <h:commandButton
+      value="Apply"
+      type="button"
+      actionListener="#{search.apply}"
+    />
+    <h:commandButton
+      immediate="true"
+      value="Prev"
+      type="button"
+      disabled="#{search.firstPage}"
+      actionListener="#{search.prevPage}"
+    />
+    <h:commandButton
+      immediate="true"
+      value="Next"
+      type="button"
+      disabled="#{search.lastPage}"
+      actionListener="#{search.nextPage}"
+    />
+  </span>
+</ui:fragment>

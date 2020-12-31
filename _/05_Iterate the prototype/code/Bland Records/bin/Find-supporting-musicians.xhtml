@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+<!-- the DOCTYPE means we are required to use html for a root element -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:tf="http://jbpm.org/jsf/tf"
+      xmlns:jbpm="http://jbpm.org/jsf">
+
+  <ui:component>
+
+    <jbpm:dataform>
+  	
+      <f:facet name="header">
+        <h:outputText value="#{taskName}"/>
+      </f:facet>
+        
+      <!-- TASKFORM ROWS -->
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Supporting musician 1"/>
+        </f:facet>
+      <h:inputText value="#{var['supportingMusician1']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Supporting musician 2"/>
+        </f:facet>
+      <h:inputText value="#{var['supportingMusician2']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Supporting musician 3"/>
+        </f:facet>
+      <h:inputText value="#{var['supportingMusician3']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Supporting musician 4"/>
+        </f:facet>
+      <h:inputText value="#{var['supportingMusician4']}" />
+      </jbpm:datacell>
+      <jbpm:datacell>
+        <f:facet name="header">
+            <h:outputText value="Supporting musician 5"/>
+        </f:facet>
+      <h:inputText value="#{var['supportingMusician5']}" />
+      </jbpm:datacell>
+    	    	    
+      <jbpm:datacell>
+        <f:facet name="header">
+          <h:outputText value="Actions"/>
+        </f:facet>
+        <!-- TASKFORM BUTTONS -->
+        <tf:saveButton value="Save"/>
+        <tf:cancelButton value="Cancel"/>
+        <tf:transitionButton value="Save and Close"/>
+      </jbpm:datacell>
+	    
+    </jbpm:dataform>	
+    
+  </ui:component>
+
+</html>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition
+  xmlns="urn:jbpm.org:jpdl-3.2"  name="Produce music products">
+
+   <swimlane name="Talent scout">
+      <assignment expression="group(Talent scout)"></assignment>
+   </swimlane>
+   <swimlane name="Legal adviser">
+      <assignment expression="group(Legal adviser)"></assignment>
+   </swimlane>
+   <swimlane name="Band member">
+      <assignment expression="group(Band member)"></assignment>
+   </swimlane>
+   <swimlane name="Record producer">
+      <assignment expression="group(Record producer)"></assignment>
+   </swimlane>
+   <swimlane name="Artist development">
+      <assignment expression="group(Artist development)"></assignment>
+   </swimlane>
+   <swimlane name="Songwriter">
+      <assignment expression="group(Songwriter)"></assignment>
+   </swimlane>
+   <swimlane name="Musician">
+      <assignment expression="group(Musician)"></assignment>
+   </swimlane>
+   <swimlane name="Video production">
+      <assignment expression="group(Video production)"></assignment>
+   </swimlane>
+   <swimlane name="Artist">
+      <assignment expression="group(Artist)"></assignment>
+   </swimlane>
+   <start-state name="Hold auditions">
+   
+      <task name="Hold auditions" swimlane="Talent scout">
+         <controller>
+            <variable name="audDate" access="read,write,required" mapped-name="Audition date"></variable>
+            <variable name="audLocation" access="read,write,required" mapped-name="Audition location"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Select band members"></transition>
+   </start-state>
+   <task-node name="Select band members">
+      <task name="Select band members" swimlane="Talent scout">
+         <controller>
+            <variable name="bm1" access="read,write,required" mapped-name="Band member 1"></variable>
+            <variable name="bm2" access="read,write,required" mapped-name="Band member 2"></variable>
+            <variable name="bm3" access="read,write,required" mapped-name="Band member 3"></variable>
+            <variable name="bm4" mapped-name="Band member 4"></variable>
+            <variable name="bm5" mapped-name="Band member 5"></variable>
+            <variable name="bm6" mapped-name="Band member 6"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Contract band members"></transition>
+   </task-node>
+   <task-node name="Contract band members">
+      <task name="Contract band members" swimlane="Legal adviser">
+         <controller>
+            <variable name="bm1ContractSent" access="read,write,required" mapped-name="Band member 1 contract sent?"></variable>
+            <variable name="bm2ContractSent" access="read,write,required" mapped-name="Band member 2 contract sent?"></variable>
+            <variable name="bm3ContractSent" access="read,write,required" mapped-name="Band member 3 contract sent?"></variable>
+            <variable name="bm4ContractSent" mapped-name="Band member 4 contract sent?"></variable>
+            <variable name="bm5ContractSent" mapped-name="Band member 5 contract sent?"></variable>
+            <variable name="bm6ContractSent" mapped-name="Band member 6 contract sent?"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Contract response"></transition>
+   </task-node>
+   <task-node name="Contract response">
+      <task name="Contract response" swimlane="Legal adviser">
+         <controller>
+            <variable name="bm1Agreed" mapped-name="Band member 1 agreed?"></variable>
+            <variable name="bm2Agreed" mapped-name="Band member 2 agreed?"></variable>
+            <variable name="bm3Agreed" mapped-name="Band member 3 agreed?"></variable>
+            <variable name="bm4Agreed" mapped-name="Band member 4 agreed?"></variable>
+            <variable name="bm5Agreed" mapped-name="Band member 5 agreed?"></variable>
+            <variable name="bm6Agreed" mapped-name="Band member 6 agreed?"></variable>
+         </controller>
+      </task>
+      <transition name="" to="All contracts agreed?"></transition>
+   </task-node>
+   <task-node name="All contracts agreed?">
+      <task name="All contracts agreed?" swimlane="Legal adviser">
+         <controller>
+            <variable name="bm1Agreed" access="read" mapped-name="Band member 1 agreed?"></variable>
+            <variable name="bm2Agreed" access="read" mapped-name="Band member 2 agreed?"></variable>
+            <variable name="bm3Agreed" access="read" mapped-name="Band member 3 agreed?"></variable>
+            <variable name="bm4Agreed" access="read" mapped-name="Band member 4 agreed?"></variable>
+            <variable name="bm5Agreed" access="read" mapped-name="Band member 5 agreed?"></variable>
+            <variable name="bm6Agreed" access="read" mapped-name="Band member 6 agreed?"></variable>
+         </controller>
+      </task>
+      <transition name="No" to="Contract new member"></transition>
+      <transition name="Yes" to="Name band"></transition>
+   </task-node>
+   <task-node name="Contract new member">
+      <task name="Contract new member" swimlane="Legal adviser">
+         <controller>
+            <variable name="bm1" access="read,write,required" mapped-name="Band member 1"></variable>
+            <variable name="bm2" access="read,write,required" mapped-name="Band member 2"></variable>
+            <variable name="bm3" access="read,write,required" mapped-name="Band member 3"></variable>
+            <variable name="bm4" mapped-name="Band member 4"></variable>
+            <variable name="bm5" mapped-name="Band member 5"></variable>
+            <variable name="bm6" mapped-name="Band member 6"></variable>
+            <variable name="bm1Agreed" mapped-name="Band member 1 agreed?"></variable>
+            <variable name="bm2Agreed" mapped-name="Band member 2 agreed?"></variable>
+            <variable name="bm3Agreed" mapped-name="Band member 3 agreed?"></variable>
+            <variable name="bm4Agreed" mapped-name="Band member 4 agreed?"></variable>
+            <variable name="bm5Agreed" mapped-name="Band member 5 agreed?"></variable>
+            <variable name="bm6Agreed" mapped-name="Band member 6 agreed?"></variable>
+         </controller>
+      </task>
+      <transition name="" to="All contracts agreed?"></transition>
+   </task-node>
+   <task-node name="Name band">
+   
+      <task name="Name band" swimlane="Record producer">
+         <controller>
+            <variable name="bandName" access="read,write,required" mapped-name="Band name"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Organize vocal tuition"></transition>
+   </task-node>
+   <task-node name="Organize vocal tuition">
+      <task name="Organize vocal tuition" swimlane="Artist development">
+         <controller>
+            <variable name="vocalTuitionDate" access="read,write,required" mapped-name="Vocal tuition date"></variable>
+            <variable name="vocalTuitionTime" access="read,write,required" mapped-name="Vocal tuition time"></variable>
+            <variable name="vocalTuitionLocation" access="read,write,required" mapped-name="Vocal tuition location"></variable>
+         </controller>
+      </task>
+      <transition name="" to="fork1"></transition>
+   </task-node>
+   <fork name="fork1">
+      <transition name="" to="Write songs"></transition>
+      <transition name="tr2" to="Organize dance lessons"></transition>
+   </fork>
+   <task-node name="Write songs">
+      <task name="Write songs" swimlane="Songwriter">
+         <controller>
+            <variable name="songName1" access="read,write,required" mapped-name="Song name 1"></variable>
+            <variable name="songName2" access="read,write,required" mapped-name="Song name 2"></variable>
+            <variable name="songName3" access="read,write,required" mapped-name="Song name 3"></variable>
+            <variable name="songName4" access="read,write,required" mapped-name="Song name 4"></variable>
+            <variable name="songName5" access="read,write,required" mapped-name="Song name 5"></variable>
+            <variable name="songName6" access="read,write,required" mapped-name="Song name 6"></variable>
+            <variable name="songName7" access="read,write,required" mapped-name="Song name 7"></variable>
+            <variable name="songName8" access="read,write,required" mapped-name="Song name 8"></variable>
+            <variable name="songName9" access="read,write,required" mapped-name="Song name 9"></variable>
+            <variable name="songName10" access="read,write,required" mapped-name="Song name 10"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Evaluate songs"></transition>
+   </task-node>
+   <task-node name="Organize dance lessons">
+      <task name="Organize dance lessons" swimlane="Artist development">
+         <controller>
+            <variable name="danceLessonDate" access="read,write,required" mapped-name="Dance lesson date"></variable>
+            <variable name="danceLessonTime" access="read,write,required" mapped-name="Dance lesson time"></variable>
+            <variable name="danceLessonLocation" access="read,write,required" mapped-name="Dance lesson location"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Stylise band"></transition>
+   </task-node>
+   <task-node name="Evaluate songs">
+      <task name="Evaluate songs" swimlane="Record producer"></task>
+      <transition name="Good" to="join1"></transition>
+      <transition name="Bad" to="Write songs"></transition>
+   </task-node>
+   <task-node name="Contract supporting musicians">
+      <task name="Contract supporting musicians" swimlane="Legal adviser"></task>
+      <transition name="Done" to="Book recording studio"></transition>
+   </task-node>
+   <task-node name="Stylise band">
+      <task name="Stylise band" swimlane="Artist development">
+         <controller>
+            <variable name="bandStyle" access="read,write,required" mapped-name="Band style"></variable>
+            <variable name="bandName" access="read" mapped-name="Band name"></variable>
+         </controller>
+      </task>
+      <transition name="" to="Find supporting musicians"></transition>
+   </task-node>
+   <task-node name="Find supporting musicians">
+      <task name="Find supporting musicians" swimlane="Record producer">
+         <controller>
+            <variable name="supportingMusician1" access="read,write,required" mapped-name="Supporting musician 1"></variable>
+            <variable name="supportingMusician2" access="read,write,required" mapped-name="Supporting musician 2"></variable>
+            <variable name="supportingMusician3" access="read,write,required" mapped-name="Supporting musician 3"></variable>
+            <variable name="supportingMusician4" access="read,write,required" mapped-name="Supporting musician 4"></variable>
+            <variable name="supportingMusician5" access="read,write,required" mapped-name="Supporting musician 5"></variable>
+         </controller>
+      </task>
+      <transition name="" to="join1"></transition>
+   </task-node>
+   <join name="join1">
+      <transition name="" to="Contract supporting musicians"></transition>
+   </join>
+   <task-node name="Book recording studio">
+      <task name="Book recording studio" swimlane="Record producer">
+         <controller>
+            <variable name="recordingStudioName" access="read,write,required" mapped-name="Recording studio name"></variable>
+            <variable name="recordingStudioDate" access="read,write,required" mapped-name="Recording studio date"></variable>
+            <variable name="recordingStudioTime" access="read,write,required" mapped-name="Recording studio time"></variable>
+            <variable name="recordingStudioDuration" access="read,write,required" mapped-name="Recording studio duration"></variable>
+         </controller>
+      </task>
+      <transition name="Done" to="Record backing tracks"></transition>
+   </task-node>
+   <task-node name="Record backing tracks">
+      <task name="Record backing tracks" swimlane="Musician"></task>
+      <transition name="Done" to="Record vocals"></transition>
+   </task-node>
+   <task-node name="Record vocals">
+      <task name="Record vocals" swimlane="Band member"></task>
+      <transition name="Done" to="Record backing vocals"></transition>
+   </task-node>
+   <task-node name="Record backing vocals">
+      <task name="Record backing vocals" swimlane="Musician"></task>
+      <transition name="Done" to="Mix tracks"></transition>
+   </task-node>
+   <task-node name="Mix tracks">
+      <task name="Mix tracks" swimlane="Record producer"></task>
+      <transition name="Done" to="Shoot video"></transition>
+   </task-node>
+   <task-node name="Shoot video">
+      <task name="Shoot video" swimlane="Video production"></task>
+      <transition name="Done" to="fork2"></transition>
+   </task-node>
+   <task-node name="Design cover artwork">
+      <task name="Design cover artwork" swimlane="Artist"></task>
+      <transition name="Done" to="Draft credits"></transition>
+   </task-node>
+   <fork name="fork2">
+      <transition name="" to="Design cover artwork"></transition>
+      <transition name="tr2" to="Edit video"></transition>
+   </fork>
+   <task-node name="Edit video">
+      <task name="Edit video" swimlane="Video production"></task>
+      <transition name="Done" to="join2"></transition>
+   </task-node>
+   <task-node name="Draft credits">
+      <task name="Draft credits" swimlane="Record producer"></task>
+      <transition name="Done" to="Review credits and cover artwork"></transition>
+   </task-node>
+   <task-node name="Review credits and cover artwork">
+      <task name="Review credits and artwork" swimlane="Record producer"></task>
+      <transition name="Incorrect" to="Draft credits"></transition>
+      <transition name="Correct" to="join2"></transition>
+   </task-node>
+   <join name="join2">
+      <transition name="" to="Compile album and DVD"></transition>
+   </join>
+   <task-node name="Compile album and DVD">
+      <task name="Compile album and DVD" swimlane="Record producer"></task>
+      <transition name="Done" to="Album complete"></transition>
+   </task-node>
+   <end-state name="Album complete"></end-state>
+</process-definition>

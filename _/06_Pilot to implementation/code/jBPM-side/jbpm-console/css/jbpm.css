@@ -1,0 +1,792 @@
+/**********************************************************
+  General styles
+***********************************************************/
+body {
+  font-weight:normal;
+  font-family:verdana,sans-serif;
+  font-size:10pt;
+  background-repeat:no-repeat;
+  margin:0;
+  border-width:0;
+}
+
+html {
+  background-image:url("../images/background.gif");
+  background-attachment:scroll;
+  background-repeat:no-repeat;
+  margin:0;
+  border-width:0;
+}
+
+button, input, select, option, textarea {
+  font-family:arial,helvetica,sans-serif;
+  font-weight:normal;
+  font-size:10pt;
+  line-height:normal;
+}
+
+select {
+  vertical-align:top;
+}
+
+h1, h2, h3 {
+  margin:0;
+  border:0;
+  font-size:16pt;
+  font-weight:normal;
+  color:#000000;
+}
+
+form {
+  display:inline;
+}
+
+h2 {
+  font-size:14pt;
+}
+
+h3 {
+  font-size:12pt;
+}
+
+a {
+  cursor: pointer;
+  color: rgb(110, 110, 170);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+div.hr {
+  border-style:none;
+  border-width:0;
+  background:#c0c0c0;
+  margin-left:3px;
+  margin-right:3px;
+  height:2px;
+  font-size:0;
+  margin-top:6px;
+  margin-bottom:10px;
+}
+
+img {
+  display:block;
+}
+
+b {
+  font-weight:bold;
+}
+
+.floatLeft {
+  float:left;
+}
+
+.busy {
+  cursor:progress;
+}
+
+/**********************************************************
+  Menus
+  divs are headings
+  a are options
+  span are disabled options
+***********************************************************/
+
+div.menu div, div.menu a, div.menu span {
+  color:#ffffff;
+  text-align:left;
+  font-weight: bold;
+  text-decoration: none;
+  font-size:11px;
+  width:144px;
+  line-height:11px;
+  margin-bottom:-1px;
+  padding-top:4px;
+  padding-bottom:4px;
+  padding-left:5px;
+  padding-right:10px;
+  border-top-width:1px;
+  border-top-style:solid;
+  border-top-color:#ffffff;
+  border-bottom-width:1px;
+  border-bottom-style:solid;
+  border-bottom-color:#ffffff;
+  border-right-width:1px;
+  border-right-style:solid;
+  border-right-color:#ffffff;
+  border-collapse:collapse;
+  display:block;
+}
+
+/* <b> actually un-bolds :-) */
+div.menu b {
+  font-weight:normal;
+}
+
+/* Make the login/password boxes fit in the menu. */
+div.menu input.text {
+  width:110px;
+}
+
+div.menu div {
+  background-color:#990000;
+  color:#ffff99;
+  cursor:default;
+}
+
+div.menu a {
+  background-color:#444444;
+  cursor:pointer;
+  padding-left:10px;
+  padding-right:5px;
+}
+
+/* use :hover because this is the one type that IE actually supports */
+div.menu a:hover {
+  background-color:#cc0000;
+}
+
+div.menu span {
+  background-color:#222222;
+  color:#888888;
+  cursor:pointer;
+  padding-left:10px;
+  padding-right:5px;
+}
+
+div.menu span.x_hover_ {
+  background-color:#660000;
+}
+
+.hidden {
+  visibility:hidden;
+  display:none;
+}
+
+/**********************************************************
+  Page layout
+***********************************************************/
+
+.layout {
+  background-color:transparent;
+  padding:0;
+  margin:0;
+  border-width:0;
+}
+
+/**********************************************************
+  Messages
+***********************************************************/
+
+div.messages {
+  font-family:verdana,sans-serif;
+  font-size:10px;
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+div.messages table {
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+  border-style:solid;
+  border-width:1px;
+  border-collapse:collapse;
+  margin-bottom:20px;
+  width:400px;
+  border-color:#000000;
+  cursor:default;
+}
+
+div.e {
+  display:none;
+}
+
+div.messages table td, div.messages table th {
+  font-size:10px;
+}
+
+div.messages table thead tr.f th {
+  border-bottom-style:solid;
+  border-bottom-width:1px;
+  border-bottom-color:#000000;
+  font-size:12px;
+}
+
+div.messages table tbody tr.f td {
+  border-top-style:solid;
+  border-top-width:1px;
+  border-top-color:#000000;
+}
+
+div.messages table tbody tr.f th {
+  border-top-style:solid;
+  border-top-width:1px;
+  border-top-color:#000000;
+}
+
+div.messages table tbody td {
+  text-align:left;
+  clear:right;
+}
+
+div.messages table tbody td span.detailbutton {
+  float:right;
+  vertical-align:top;
+  color:#0000ff;
+  background-color:#dddddd;
+  cursor:pointer;
+}
+
+div.messages table tbody tr.nl td.m {
+  border-bottom-style:dotted;
+  border-bottom-width:1px;
+  border-bottom-color:#c0c0c0;
+}
+
+div.messages table tbody td span.detail {
+  display:block;
+  border-style:solid;
+  border-width:1px;
+  border-color:#000000;
+  margin:3px;
+  padding:2px;
+  text-align:left;
+}
+
+div.messages span.x_hover_ {
+  text-decoration:underline;
+}
+
+div.messages table tbody td span.hidden {
+  display:none;
+}
+
+div.messages th.ls, div.messages th.rs, div.messages td.ls, div.messages td.rs {
+  width:3px;
+}
+
+div.messages table.error thead th, div.messages table.error tbody th {
+  background-color:#cc0000;
+  color:#ffffff;
+}
+
+div.messages table.fatal thead th, div.messages table.fatal tbody th {
+  background-color:#cc0000;
+  color:#ffffff;
+}
+
+div.messages table.warn thead th, div.messages table.warn tbody th {
+  background-color:#ddaa00;
+  color:#ffffff;
+}
+
+div.messages table.info thead th, div.messages table.info tbody th {
+  background-color:#4444ff;
+  color:#ffffff;
+}
+
+/**********************************************************
+  Tabs
+***********************************************************/
+
+ul.tabset {
+  margin:0;
+  padding:0;
+  margin-top:5px;
+  white-space:nowrap;
+  line-height:normal;
+}
+
+li.tabset {
+  list-style:none;
+  border-collapse:collapse;
+  display:inline;
+  border-width:1px;
+  border-style:solid;
+  border-color:#990000;
+  border-spacing:0;
+  margin-top:2px;
+  margin-left:8px;
+  margin-right:0;
+  margin-bottom:0;
+  padding-left:3px;
+  padding-right:3px;
+  padding-top:2px;
+  padding-bottom:2px;
+  font-size:11px;
+  font-weight:normal;
+  font-family:verdana,sans-serif;
+  background-color:#dddddd;
+  white-space:nowrap;
+  vertical-align:bottom;
+}
+
+li.tabset_active {
+  border-bottom-color:#ffffff;
+  border-bottom-width:1px;
+  border-bottom-style:solid;
+  background-color:#ffffff;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+li.tabset_disabled {
+  cursor:default;
+  border-bottom-style:none;
+  color:#888888;
+}
+
+li.tabset_inactive {
+  cursor:pointer;
+  border-bottom-style:none;
+}
+
+a.tabset {
+  color:#000000;
+}
+
+div.tabset_active {
+}
+
+div.tabset_inactive {
+  display:none;
+}
+
+div.tabset_content {
+  border-width:1px;
+  border-style:solid;
+  border-color:#990000;
+  border-collapse:collapse;
+  padding:8px;
+  margin:2px;
+  background-color:#ffffff;
+  color:#000000;
+  font-size:12px;
+}
+
+/**********************************************************
+  General Data forms
+  dataform = all data forms
+  hdataform = data forms with horiz orientation
+  vdataform = data forms with vert orientation
+  td.ls / th.ls = left separator
+  td.rs / th.rs = right separator
+  td.m / th.m = center of cell
+  tr.nl = not last row in row group
+  tr.l = last row in row group (never true for vertical "tbody th")
+  tr.nf = not first row in row group
+  tr.f = first row in row group (never true for vertical "tbody td")
+  td.nl / th.nl = not last column in row (implies td.rs / th.rs)
+  td.l / th.l = last column in row (never true for horizontal "tbody td", implies td.rs / th.rs)
+  td.nf / th.nf = not first column in row (implies td.ls / th.ls)
+  td.f / th.f = first column in row (never true for horizontal "tbody td", implies td.ls / th.ls)
+***********************************************************/
+
+table.dataform {
+  border-width:1px;
+  border-color:#990000;
+  border-style:solid;
+  border-collapse:collapse;
+}
+
+table.dataform th, table.dataform td {
+  text-align:left;
+  text-decoration:none;
+  font-size:11px;
+  line-height:17px;
+  height:17px;
+  vertical-align:middle;
+}
+
+table.dataform tbody.area tr td {
+  vertical-align:top;
+}
+
+table.dataform th {
+  background-color:#444444;
+  color:#ffffff;
+  font-weight:bold;
+  cursor:default;
+}
+
+table.dataform th b {
+  font-weight:normal;
+}
+
+/* all td have the same background color */
+table.dataform td {
+  background-color:#dddddd;
+}
+
+table.dataform td.ls, table.dataform th.ls, table.dataform td.rs, table.dataform th.rs {
+  width:2px;
+  padding:0;
+  margin:0;
+}
+
+table.dataform .m {
+  padding-top:2px;
+  padding-bottom:3px;
+  padding-left:3px;
+  padding-right:3px;
+}
+
+table.dataform tbody tr th.m {
+  width:180px;
+}
+
+table.dataform tbody tr td.m {
+  white-space:nowrap;
+  width:300px;
+}
+
+table.dataform tbody .m {
+  font-size:10px;
+}
+
+table.dataform tbody tr.nl th.m, table.dataform tbody tr.nl th.rs {
+  border-bottom-width:1px;
+  border-bottom-color:#777777;
+  border-bottom-style:solid;
+}
+
+table.dataform tbody tr.nl td.m, table.dataform tbody tr.nl td.ls {
+  border-bottom-width:1px;
+  border-bottom-color:#ffffff;
+  border-bottom-style:solid;
+}
+
+table.dataform tr.m td.nl, table.dataform tr.ts td.nl, table.dataform tr td.nl {
+  border-right-width:2px;
+  border-right-color:#777777;
+  border-right-style:solid;
+}
+
+table.dataform thead th, table.dataform tfoot th {
+  background-color:#990000;
+  color:#ffff99;
+}
+
+table.dataform tfoot tr.f th.m {
+  border-top-width:1px;
+  border-top-style:solid;
+  border-top-color:#777777;
+}
+
+table.dataform td input.text {
+  width:90px;
+}
+
+table.dataform td input.filterApplyButton {
+  width:50px;
+}
+
+table.dataform td textarea {
+  overflow:auto;
+  width:150px;
+  min-width:163px;
+  height:90px;
+}
+
+table.dataform tr.header th {
+  background-color:#ffff99;
+  color:#990000;
+  padding-top:1px;
+  padding-bottom:1px;
+  line-height:normal;
+  border-top-color:#990000;
+  border-top-width:1px;
+  border-top-style:solid;
+  border-bottom-color:#990000;
+  border-bottom-width:1px;
+  border-bottom-style:solid;
+  height:auto ;
+}
+
+table.dataform tr.header th.m {
+  padding-left:10px;
+}
+
+/**********************************************************
+  Comments
+***********************************************************/
+
+table.comments {
+  border-width:1px;
+  border-color:#990000;
+  border-style:solid;
+  border-collapse:collapse;
+  width:600px;
+}
+
+table.comments col.ls, table.comments col.rs, table.comments td.ls, table.comments td.rs, table.comments th.ls, table.comments th.rs {
+  width:0;
+  margin:0;
+  border-style:none;
+  border-width:0;
+  padding:0;
+}
+
+table.comments thead tr th {
+  background-color:#990000;
+  color:#ffff99;
+  font-weight:bold;
+  cursor:default;
+  padding-top:3px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+}
+
+table.comments tbody tr.nf td.m, table.comments tbody.nf tr.f td.m {
+  border-top-color:#888888;
+  border-top-width:1px;
+  border-top-style:solid;
+}
+
+div.commentHeader {
+  padding-top:3px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+}
+
+.commentText {
+  display:block;
+  padding-top:3px;
+  padding-bottom:3px;
+  padding-left:4px;
+  padding-right:4px;
+  border-width:1px;
+  border-color:#990000;
+  border-style:solid;
+  border-collapse:collapse;
+  margin-left:5px;
+  margin-right:5px;
+  background-color:#ffffff;
+  font-family:arial,helvetica,sans-serif;
+  margin-top:4px;
+  margin-bottom:4px;
+}
+
+/**********************************************************
+  Button Image
+***********************************************************/
+
+input {
+  outline:none;
+}
+
+/**********************************************************
+  Process Image
+***********************************************************/
+
+div.processImageBox {
+  border-color:red;
+  border-style:groove;
+  border-width:4px;
+}
+
+div.tokenSelectBox {
+}
+
+div.tokenSelectBox a.tokenSelectBox {
+  background-image:url("../images/transparent.gif");
+  display:block;
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+img.processImage {
+  border-style:none;
+  border-width:0;
+}
+
+/**********************************************************
+  Data Tables
+***********************************************************/
+
+table.dataTable {
+  border-width:1px;
+  border-color:#990000;
+  border-style:solid;
+  border-collapse:collapse;
+}
+
+table.dataTable col.ls, table.dataTable col.rs, table.dataTable td.ls, table.dataTable td.rs, table.dataTable th.ls, table.dataTable th.rs {
+  width:0;
+  margin:0;
+  border-style:none;
+  border-width:0;
+  padding:0;
+}
+
+table.dataTable th, table.dataTable td {
+  text-align:left;
+  text-decoration:none;
+  font-size:11px;
+  line-height:normal;
+  height:15px;
+  vertical-align:middle;
+}
+
+table.dataTable th.m, table.dataTable td.m {
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left:4px;
+  padding-right:4px;
+}
+
+table.dataTable thead tr.columns th {
+  background-color:#444444;
+  color:#ffffff;
+  font-weight:bold;
+  cursor:default;
+}
+
+table.dataTable thead tr.columns th.nf {
+  border-left-color:#888888;
+  border-left-width:1px;
+  border-left-style:solid;
+}
+
+table.dataTable thead tr.main th {
+  background-color:#990000;
+  color:#ffff99;
+  font-weight:bold;
+  line-height:normal;
+  text-align:right;
+}
+
+table.dataTable thead tr.main th input {
+  margin-left:6px;
+}
+
+table.dataTable thead tr.main th.m {
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left:5px;
+  padding-right:5px;
+  font-size:12px;
+  border-bottom-color:#888888;
+  border-bottom-width:1px;
+  border-bottom-style:solid;
+  white-space:nowrap;
+}
+
+table.dataTable tfoot tr th {
+  background-color:#990000;
+  color:#ffff99;
+  vertical-align:middle;
+  font-weight:bold;
+}
+
+table.dataTable tfoot tr th.m {
+  border-top-color:#888888;
+  border-top-width:1px;
+  border-top-style:solid;
+}
+
+table.dataTable tbody.filterGroup tr td {
+  background-color:#dddddd;
+}
+
+table.dataTable tbody tr.nf td.m, table.dataTable tbody.nf tr.f td.m {
+  border-top-color:#888888;
+  border-top-width:1px;
+  border-top-style:solid;
+}
+
+table.dataTable tbody tr td.nf {
+  border-left-color:#888888;
+  border-left-width:1px;
+  border-left-style:solid;
+}
+
+table.dataTable tbody tr td input.actorid {
+  width:100px;
+}
+
+table.dataTable tbody tr td input.processversion {
+  width:60px;
+}
+
+table.dataTable tbody tr td input.taskpriority {
+  width:60px;
+}
+
+table.dataTable tbody tr td input.processname {
+  width:120px;
+}
+
+tr.odd_hoverable_ td {
+  background-color:#ece9d8;
+  cursor:default;
+}
+
+tr.even_hoverable_ td {
+  background-color:#fffceb;
+  cursor:default;
+}
+
+tr.odd td {
+  background-color:#ece9d8;
+  cursor:default;
+}
+
+tr.even td {
+  background-color:#fffceb;
+  cursor:default;
+}
+
+tr.odd_hover_ td {
+  background-color:#ece9a4;
+  cursor:default;
+}
+
+tr.even_hover_ td {
+  background-color:#fffcb1;
+  cursor:default;
+}
+
+/* XML styles */
+
+.nested {
+  margin-left:30px;
+}
+
+.punctuation {
+  font-weight: bold;
+  color:#000000;
+}
+
+.identifier {
+  font-weight: bold;
+  color:#880000;
+}
+
+.sourcetxt {
+  width:600px;
+  height:300px;
+  border-style:solid;
+  border-width:1px;
+  background-color:#fffceb;
+  white-space:nowrap;
+  overflow:auto;
+}
+
+.string {
+  font-weight:normal;
+  color:#008800;
+}
+
+.comment {
+  font-style:oblique;
+  color:#777777;
+}

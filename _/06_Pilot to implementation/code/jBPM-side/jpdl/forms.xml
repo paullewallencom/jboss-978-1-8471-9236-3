@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<forms>
+  <form task="Hold auditions" form="Hold-auditions.xhtml"/>
+  <form task="Select band members" form="Select-band-members.xhtml"/>
+  <form task="Contract band members" form="Contract-band-members.xhtml"/>
+  <form task="Contract response" form="Contract-response.xhtml"/>
+  <form task="All contracts agreed" form="All-contracts-agreed.xhtml"/>
+  <form task="Contract new member" form="Contract-new-member.xhtml"/>
+  <form task="Name band" form="Name-band.xhtml"/>
+  <form task="Organize vocal tuition" form="Organize-vocal-tuition.xhtml"/>
+  <form task="Write songs" form="Write-songs.xhtml"/>
+  <form task="Organize dance lessons" form="Organize-dance-lessons.xhtml"/>
+  <form task="Evaluate songs" form="Evaluate-songs.xhtml"/>
+  <form task="Contract supporting musicians" form="Contract-supporting-musicians.xhtml"/>
+  <form task="Stylise band" form="Stylise-band.xhtml"/>
+  <form task="Find supporting musicians" form="Find-supporting-musicians.xhtml"/>
+  <form task="Book recording studio" form="Book-recording-studio.xhtml"/>
+  <form task="Record backing tracks" form="Record-backing-tracks.xhtml"/>
+  <form task="Record vocals" form="Record-vocals.xhtml"/>
+  <form task="Record backing vocals" form="Record-backing-vocals.xhtml"/>
+  <form task="Mix tracks" form="Mix-tracks.xhtml"/>
+  <form task="Shoot video" form="Shoot-video.xhtml"/>
+  <form task="Design cover artwork" form="Design-cover-artwork.xhtml"/>
+  <form task="Edit video" form="Edit-video.xhtml"/>
+  <form task="Draft credits" form="Draft-credits.xhtml"/>
+  <form task="Review credits and artwork" form="Review-credits-and-artwork.xhtml"/>
+  <form task="Compile album and DVD" form="Compile-album-and-DVD.xhtml"/>
+  <form task="Select_band_ members" form="Select_band_members.xhtml"/>
+  <form task="Select_band_members" form="Select_band_members.xhtml"/>
+</forms>

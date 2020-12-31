@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <!-- JSF -->
+  <servlet>
+    <servlet-name>FacesServlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FacesServlet</servlet-name>
+    <url-pattern>*.jsf</url-pattern>
+  </servlet-mapping>
+
+  <!-- Use Documents Saved as *.xhtml -->
+  <context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+  </context-param>
+  
+  <!-- Facelets debug output -->
+  <context-param>
+    <param-name>facelets.DEVELOPMENT</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  
+  <!-- Facelets tag libraries (semi-colon separated) -->
+  <context-param>
+    <param-name>facelets.LIBRARIES</param-name>
+    <param-value>/WEB-INF/jbpm.taglib.xml;/WEB-INF/jbpm-tf.taglib.xml</param-value>
+  </context-param>
+
+  <!-- Custom Facelets resource resolver to handle the task form fetching from the process definition files -->
+  <context-param>
+    <param-name>facelets.RESOURCE_RESOLVER</param-name>
+    <param-value>org.jbpm.webapp.taskforms.TaskFormsResourceResolver</param-value>
+  </context-param>
+
+  <!-- Work around a bug in JSF 1.2_03 -->
+  <context-param>
+    <param-name>com.sun.faces.disableVersionTracking</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <error-page>
+    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+    <location>/index.jsp</location>
+  </error-page>
+
+  <!-- LogFilter -->
+  <filter>
+    <filter-name>LogFilter</filter-name>
+    <filter-class>org.jbpm.webapp.filter.LogFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LogFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- JbpmJobExecutorServlet BEGIN -->
+  <servlet>
+    <servlet-name>JobExecutorServlet</servlet-name>
+    <servlet-class>org.jbpm.job.executor.JobExecutorServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JobExecutorServlet</servlet-name>
+    <url-pattern>/jobs</url-pattern>
+  </servlet-mapping>
+  <!-- JbpmJobExecutorServlet END -->
+
+  <!-- CloseJbpmConfigurationServlet BEGIN -->
+  <servlet>
+    <servlet-name>CloseJbpmConfigurationServlet</servlet-name>
+    <servlet-class>org.jbpm.web.CloseJbpmConfigurationServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <!--
+  <servlet-mapping>
+    <servlet-name>CloseJbpmConfigurationServlet</servlet-name>
+    <url-pattern>/closejbpmconfigurationservlet</url-pattern>
+  </servlet-mapping>
+   -->
+  <!-- CloseJbpmConfigurationServlet END -->
+
+  <!-- jBPM DeployServlet -->
+  <servlet>
+    <servlet-name>ProcessUploadServlet</servlet-name>
+    <servlet-class>
+      org.jbpm.webapp.servlet.ProcessUploadServlet
+    </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessUploadServlet</servlet-name>
+    <!-- URL used by GPD -->
+    <!-- GPD expects just a piece of text as a reply -->
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProcessUploadServlet</servlet-name>
+    <url-pattern>/uploadDefinition</url-pattern>
+  </servlet-mapping>
+  
+  <!-- EJB LOCAL REFS BEGIN ===
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/LocalTimerServiceBean</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home>org.jbpm.scheduler.ejbtimer.LocalTimerServiceHome</local-home>
+    <local>org.jbpm.scheduler.ejbtimer.LocalTimerService</local>
+    <ejb-link>TimerServiceBean</ejb-link>
+  </ejb-local-ref>
+  ==== EJB LOCAL REFS END -->
+
+  <security-role>
+    <role-name>participant</role-name>
+  </security-role>
+  <security-role>
+    <role-name>manager</role-name>
+  </security-role>
+  <security-role>
+    <role-name>administrator</role-name>
+  </security-role>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Common Pages</web-resource-name>
+      <url-pattern>/common/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>participant</role-name>
+      <role-name>manager</role-name>
+      <role-name>administrator</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Participant Pages</web-resource-name>
+      <url-pattern>/main/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>participant</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Search Pages</web-resource-name>
+      <url-pattern>/search/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>participant</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Process Pages</web-resource-name>
+      <url-pattern>/process/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>participant</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Task Pages</web-resource-name>
+      <url-pattern>/task/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>participant</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Report Pages</web-resource-name>
+      <url-pattern>/report/*</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>participant</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/common/login.jsf</form-login-page>
+      <form-error-page>/common/error.jsf</form-error-page>
+    </form-login-config>
+  </login-config>
+
+</web-app>

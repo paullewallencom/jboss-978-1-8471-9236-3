@@ -1,0 +1,9 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:jbpm="http://jbpm.org/jsf"
+>
+  <h:outputText rendered="#{search.resultsOnPage &lt;= 0}" value="No results found"/>
+  <h:outputText rendered="#{search.resultsOnPage &gt; 0}" value="Results #{search.oneBasedFirstRow} - #{search.oneBasedLastRow} of #{search.overflow ? 'more than ' : ''}#{search.total}"/>
+</ui:fragment>

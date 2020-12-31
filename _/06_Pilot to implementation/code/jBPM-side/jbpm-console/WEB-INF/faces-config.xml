@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN" "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+
+<faces-config>
+
+  <!-- Managed beans -->
+
+  <!-- global -->
+
+  <managed-bean>
+    <managed-bean-name>jbpmBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.JbpmBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
+
+  <managed-bean>
+    <managed-bean-name>identityBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.IdentityBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>jbpmBean</property-name>
+      <value>#{jbpmBean}</value>
+    </managed-property>
+  </managed-bean>
+
+  <managed-bean>
+    <managed-bean-name>applicationBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.ApplicationBean</managed-bean-class>
+    <managed-bean-scope>application</managed-bean-scope>
+  </managed-bean>
+
+  <!-- Graph object beans -->
+
+  <managed-bean>
+    <managed-bean-name>taskInstanceBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.TaskInstanceBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>jbpmBean</property-name>
+      <value>#{jbpmBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>pageBean</property-name>
+      <value>#{pageBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>taskBean</property-name>
+      <value>#{taskBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>processBean</property-name>
+      <value>#{processBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>processInstanceBean</property-name>
+      <value>#{processInstanceBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>applicationBean</property-name>
+      <value>#{applicationBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>identityBean</property-name>
+      <value>#{identityBean}</value>
+    </managed-property>
+  </managed-bean>
+
+  <managed-bean>
+    <managed-bean-name>taskBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.TaskBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>pageBean</property-name>
+      <value>#{pageBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>jbpmBean</property-name>
+      <value>#{jbpmBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>applicationBean</property-name>
+      <value>#{applicationBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>processBean</property-name>
+      <value>#{processBean}</value>
+    </managed-property>
+  </managed-bean>
+
+  <managed-bean>
+    <managed-bean-name>processInstanceBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.ProcessInstanceBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>pageBean</property-name>
+      <value>#{pageBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>jbpmBean</property-name>
+      <value>#{jbpmBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>processBean</property-name>
+      <value>#{processBean}</value>
+    </managed-property>
+  </managed-bean>
+
+  <managed-bean>
+    <managed-bean-name>processBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.ProcessBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+    <managed-property>
+      <property-name>jbpmBean</property-name>
+      <value>#{jbpmBean}</value>
+    </managed-property>
+    <managed-property>
+      <property-name>pageBean</property-name>
+      <value>#{pageBean}</value>
+    </managed-property>
+  </managed-bean>
+
+  <managed-bean>
+    <managed-bean-name>pageBean</managed-bean-name>
+    <managed-bean-class>org.jbpm.webapp.bean.PageBean</managed-bean-class>
+    <managed-bean-scope>request</managed-bean-scope>
+  </managed-bean>
+
+  <!-- Custom application properties -->
+
+  <application>
+    <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+    <navigation-handler>org.jbpm.webapp.application.JbpmNavigationHandler</navigation-handler>
+  </application>
+
+  <!-- Converters -->
+  
+  <converter>
+    <converter-id>pooledActorsConverter</converter-id>
+    <converter-class>org.jbpm.webapp.converter.PooledActorsConverter</converter-class>
+  </converter>
+  
+  <converter>
+    <converter-id>timeIntervalConverter</converter-id>
+    <converter-class>org.jbpm.webapp.converter.TimeIntervalConverter</converter-class>
+  </converter>
+
+  <!-- jBPM tx phase listener handler -->
+
+  <lifecycle>
+    <phase-listener>org.jbpm.webapp.listener.JbpmPhaseListener</phase-listener>
+  </lifecycle>
+
+</faces-config>

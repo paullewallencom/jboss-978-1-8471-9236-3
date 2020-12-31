@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by: SeeWhy Software -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cct="http://www.seewhy.com/2003/1/cct" xmlns:cyt="http://www.seewhy.com/2003/1/systemtypes" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.seewhy.com/2003/1/systemtypes" schemaLocation="http://localhost:8080/coreschemas/SeeWhySystemTypes.xsd"/>
+	<xs:element name="SelectBandMembers">
+		<xs:annotation>
+			<xs:documentation>SelectBandMembers</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="cyt:BusinessEventType">
+					<xs:sequence>
+						<xs:element name="bm1" type="cct:CodeType"/>
+						<xs:element name="bm2" type="cct:CodeType"/>
+						<xs:element name="bm3" type="cct:CodeType"/>
+						<xs:element name="bm4" type="cct:CodeType"/>
+						<xs:element name="bm5" type="cct:CodeType"/>
+						<xs:element name="bm6" type="cct:CodeType"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

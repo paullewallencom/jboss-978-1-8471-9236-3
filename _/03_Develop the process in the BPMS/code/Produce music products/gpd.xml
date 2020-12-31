@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-diagram name="Produce music products" width="544" height="1784">
+  <node name="Hold auditions" x="174" y="9" width="140" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Select band members" x="169" y="86" width="148" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Contract band members" x="161" y="161" width="166" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Contract response" x="173" y="237" width="140" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="All contracts agreed?" x="172" y="303" width="149" height="40">
+    <transition name="No">
+      <label x="5" y="-10"/>
+      <bendpoint w1="97" h1="-14" w2="-104" h2="-13"/>
+    </transition>
+    <transition name="Yes">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Contract new member" x="377" y="302" width="161" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+      <bendpoint w1="-113" h1="15" w2="102" h2="14"/>
+    </transition>
+  </node>
+  <node name="Name band" x="176" y="384" width="140" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Organize vocal tuition" x="172" y="449" width="149" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="fork1" x="146" y="513" width="200" height="25">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="tr2">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Write songs" x="71" y="559" width="-1" height="-1">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Organize dance lessons" x="316" y="557" width="164" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Evaluate songs" x="72" y="657" width="140" height="40">
+    <transition name="Good">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="Bad">
+      <label x="5" y="-10"/>
+      <bendpoint w1="-61" h1="-47" w2="-60" h2="51"/>
+    </transition>
+  </node>
+  <node name="Contract supporting musicians" x="154" y="822" width="199" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Stylise band" x="328" y="633" width="140" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Find supporting musicians" x="311" y="697" width="175" height="40">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="join1" x="154" y="765" width="200" height="25">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Book recording studio" x="171" y="892" width="161" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Record backing tracks" x="168" y="963" width="166" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Record vocals" x="180" y="1033" width="140" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Record backing vocals" x="175" y="1104" width="152" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Mix tracks" x="180" y="1171" width="140" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Shoot video" x="180" y="1250" width="140" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Design cover artwork" x="81" y="1379" width="149" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="fork2" x="149" y="1325" width="200" height="25">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="tr2">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Edit video" x="295" y="1379" width="140" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Draft credits" x="85" y="1449" width="140" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Review credits and cover artwork" x="47" y="1528" width="216" height="40">
+    <transition name="Incorrect">
+      <label x="5" y="-10"/>
+      <bendpoint w1="-59" h1="-38" w2="-63" h2="41"/>
+    </transition>
+    <transition name="Correct">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="join2" x="154" y="1601" width="200" height="25">
+    <transition name="">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Compile album and DVD" x="170" y="1665" width="165" height="40">
+    <transition name="Done">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="Album complete" x="184" y="1743" width="140" height="40"/>
+</process-diagram>
